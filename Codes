@@ -1,0 +1,80 @@
+#include <stdio.h>
+
+void printZeroandOne(int i, int j){
+        int z;
+        
+        for(z=j-1;z>=0;z--){
+            if((i>>z)&1)
+            printf("1");
+            else
+            printf("0");
+        }
+    }
+    
+    typedef union{
+        float fl;
+        struct{
+        unsigned mantis:23;
+        unsigned exponent:8;
+        unsigned sign:1;
+    }r;
+        double dl;
+        struct{
+            unsigned long mantis:52;
+            unsigned exponent:11;
+            unsigned sign:1;
+        }l;
+    }value;
+    
+
+    void printIEEE74Float(value var){
+        printf("%d | ", var.r.sign);
+        printZeroandOne(var.r.exponent,8);
+        printf(" | ");
+        printZeroandOne(var.r.mantis,23);
+        printf("\n");
+    }
+
+    void printIEEE74Double(value var){
+        printf("%d | ", var.l.sign);
+        printZeroandOne(var.l.exponent,11);
+        printf(" | ");
+        printZeroandOne(var.l.mantis,52);
+        printf("\n");
+        
+    }
+
+int main()
+{
+    value var;
+    var.fl;
+    
+    char ch;
+    
+    printf("Float icin 'f' Double icin 'd' giriniz: ");
+    
+    scanf("%c",&ch);
+    
+    if(ch=='f'||ch=='F'){
+        printf("Ogrenci numarasını başında harf olmadan xxxx.xxxxx seklinde giriniz: ");
+        scanf("%f",&var.fl);
+        printf("Girilen sayının IEEE754 icin float degeri: ");
+        printf("\n");
+        printIEEE74Float(var);
+    }
+        
+    else if(ch=='d'||ch=='D'){
+        
+        printf("Ogrenci numarasını başında harf olmadan xxxx.xxxxx seklinde giriniz: ");
+        scanf("%lf",&var.dl);
+        printf("Girilen sayının IEEE754 icin double degeri: ");
+        printf("\n");
+        printIEEE74Double(var);
+    }
+    
+    else
+    printf("Lutfen dogru bir input saglayin. ");
+    
+
+    return 0;
+}
